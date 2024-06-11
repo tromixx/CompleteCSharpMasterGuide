@@ -8,13 +8,16 @@ namespace Linq
     {
         static void Main(string[] args)
         {
+            
             Func<int, int, int> add = (a, b) => a + b;
-            System.Console.WriteLine(add(2, 3));
+            Console.WriteLine(add(2, 3));
         }
 
         private static float CalculateDiscount(float price)
         {
             return 0;
         }
+
+    
     }
 }
