@@ -234,4 +234,47 @@ namespace CompleteCs
             DateTime date3 = (date != null) ? date.GetValueOrDefault() : DateTime.Today
         }
     }
+
+
+
+
+    //Hash Set and foreach problem(min + number from A array that is not in the array)
+    HashSet<int> existingNumbers = new HashSet<int>();
+
+    // Add all positive numbers from the array to the HashSet
+    foreach(int i in A)
+    {
+        if (i > 0)
+        {
+            existingNumbers.Add(i);
+        }
+    }
+
+    // Check for consecutive positive numbers starting from 1
+    int minResult = 1;
+    while (existingNumbers.Contains(minResult))
+    {
+        minResult++;
+    }
+
+    return minResult;
+
+
+
+    class Solution {
+    public int solution(int[] A) 
+    {
+        // Implement your solution here
+        int minResult = 1;
+        foreach(int i in A)
+        {
+            if(i == minResult)
+            {
+                minResult++;
+            }
+        }
+        return minResult;
+    }
 }
+}
+

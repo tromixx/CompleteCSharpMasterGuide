@@ -1,4 +1,5 @@
 ﻿using System;
+using CleanCode.NestedConditionals;
 
 namespace CleanCode.NestedConditionals
 {
@@ -21,14 +22,15 @@ namespace CleanCode.NestedConditionals
 
         public void Cancel()
         {
+            if (DateTime.Now > From)
+                {
+                    throw new InvalidOperationException("It's too late to cancel.");
+                }
             // Gold customers can cancel up to 24 hours before
             if (Customer.LoyaltyPoints > 100)
             {
                 // If reservation already started throw exception
-                if (DateTime.Now > From)
-                {
-                    throw new InvalidOperationException("It's too late to cancel.");
-                }
+
                 if ((From - DateTime.Now).TotalHours < 24)
                 {
                     throw new InvalidOperationException("It's too late to cancel.");
@@ -40,10 +42,7 @@ namespace CleanCode.NestedConditionals
                 // Regular customers can cancel up to 48 hours before
 
                 // If reservation already started throw exception
-                if (DateTime.Now > From)
-                {
-                    throw new InvalidOperationException("It's too late to cancel.");
-                }
+                
                 if ((From - DateTime.Now).TotalHours < 48)
                 {
                     throw new InvalidOperationException("It's too late to cancel.");
@@ -53,4 +52,13 @@ namespace CleanCode.NestedConditionals
         }
 
     }
+}
+
+//Customer.TotalHours > 50 --> discount 0.1, else discount 0.2
+
+discount = (Customer.TotalHours > 50) ? 0.1 : 02;
+
+if(b && (a || c))
+{
+    isValid = true;
 }

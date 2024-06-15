@@ -9,11 +9,15 @@ namespace CleanCode.UnitTests.SwitchStatements
         [TestMethod]
         public void PayAsYouGoCustomer_IsChargedBasedOnTheSumOfCostOfCallAndSms()
         {
+            //arrange
             var customer = new Customer { Type = CustomerType.PayAsYouGo };
             var usage = new MonthlyUsage { CallMinutes = 100, SmsCount = 100, Customer = customer };
             var statement = new MonthlyStatement();
+
+            //act
             statement.Generate(usage);
 
+            //assert
             Assert.AreEqual(12.0f, statement.CallCost);
             Assert.AreEqual(12.0f, statement.SmsCost);
             Assert.AreEqual(24.0f, statement.TotalCost);
