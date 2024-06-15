@@ -11,49 +11,8 @@ using System.Data;
 
 namespace FooFoo
 {
-    public partial class Download : System.Web.UI.Page
+    public class MemoryFileCreator
     {
-        private readonly MemoryFileCreator _memoryfilecreator = new MemoryFileCreator();
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            System.IO.MemoryStream ms = CreateMemoryFile();
-
-            byte[] byteArray = ms.ToArray();
-            ms.Flush();
-            ms.Close();
-
-            ClearResponse();
-            SetCacheability();
-            WriteResponse();
-
-        }
-
-        private void ClearResponse()
-            {
-                Response.Clear();
-                Response.ClearContent();
-                Response.ClearHeaders();
-                Response.Cookies.Clear();
-            }
-            
-            private void SetCacheability()
-            {
-                Response.Cache.SetCacheability(HttpCacheability.Private);
-                Response.CacheControl = "private";
-                Response.AppendHeader("Pragma", "cache");
-                Response.AppendHeader("Expires", "60");
-            }
-
-            private void WriteResponse()
-            {
-                Response.Charset = System.Text.UTF8Encoding.UTF8.WebName;
-                Response.ContentEncoding = System.Text.UTF8Encoding.UTF8;
-                Response.ContentType = "text/comma-separated-values";
-                Response.AddHeader("Content-Disposition", "attachment; filename=FooFoo.csv");
-                Response.AddHeader("Content-Length", byteArray.Length.ToString());
-                Response.BinaryWrite(byteArray);
-            }
-
         public System.IO.MemoryStream CreateMemoryFile()
         {
             MemoryStream ReturnStream = new MemoryStream();
@@ -117,6 +76,6 @@ namespace FooFoo
             }
             return ReturnStream;
         }
-
     }
+
 }
