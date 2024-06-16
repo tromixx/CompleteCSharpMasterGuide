@@ -238,7 +238,8 @@ namespace CompleteCs
 
 
 
-    //Hash Set and foreach problem(min + number from A array that is not in the array)
+    //A is an array of integers
+    //Hash Set and foreach problem(min positive number from A array that is not in the array)
     HashSet<int> existingNumbers = new HashSet<int>();
 
     // Add all positive numbers from the array to the HashSet
@@ -278,3 +279,14 @@ namespace CompleteCs
 }
 }
 
+for(var i = 0; i < 2; i++)
+{
+    for(var j = 0; j < 10; j++)
+    {
+        System.Console.WriteLine($"i: {i} j: {j} ");
+        if (j == 1)
+        {
+            break;
+        }
+    }
+}
