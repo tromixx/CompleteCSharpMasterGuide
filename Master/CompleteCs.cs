@@ -1,15 +1,8 @@
-/*
-Delegates
-Dynamic Binding
-ExeptionHandling
-Generics
-Lambda
-LinQ
-Nullable
-
-*/
-
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CompleteCs
 {
@@ -17,59 +10,110 @@ namespace CompleteCs
     {
         static void Main(string[] args)
         {
+            // Example of Delegates
             var processor = new PhotoProcessor();
             var filters = new PhotoFilters();
             Action<Photo> filterHandler = filters.ApplyBrightness;
-            filterHandlerHandler += filterHandler.ApplyContrast;
+            filterHandler += filters.ApplyContrast;
             filterHandler += RemoveRedEyeFilter;
+            processor.Process("photo.jpg", filterHandler);
+
+            // Example of Nullable Types
+            DateTime? nullableDate = null;
+            DateTime date = nullableDate ?? DateTime.Today;
+            Console.WriteLine($"The date is: {date}");
+
+            // Example of Lambda Expressions
+            var books = new BookRepository().GetBooks();
+            var cheapBooks = books.FindAll(b => b.Price < 10);
+            foreach (var book in cheapBooks)
+                Console.WriteLine(book.Title);
+
+            // Example of LINQ
+            var expensiveBooks = books.Where(b => b.Price > 10).OrderBy(b => b.Title);
+            foreach (var book in expensiveBooks)
+                Console.WriteLine($"{book.Title} - ${book.Price}");
+
+            // Example of Threads
+            var thread = new Thread(() => Console.WriteLine("Thread running"));
+            thread.Start();
+
+            // Example of Asynchronous Programming
+            var data = GetDataAsync().Result;
+            Console.WriteLine(data);
         }
 
         static void RemoveRedEyeFilter(Photo photo)
         {
-            System.Console.WriteLine("Apply Remove Red Eye");
+            Console.WriteLine("Applying Remove Red Eye filter...");
+        }
+
+        static async Task<string> GetDataAsync()
+        {
+            await Task.Delay(1000);
+            return "Async data loaded!";
         }
     }
 
-    public class Delegates
+    // Delegates and Events
+    public class PhotoProcessor
     {
-        public void ApplyBrightness(Photo photo)
+        public void Process(string path, Action<Photo> filterHandler)
         {
-            System.Console.WriteLine("wenoweno");
-        }
-
-        public void ApplyContrast(Photo photo)
-        {
-            System.Console.WriteLine("mema");
+            var photo = Photo.Load(path);
+            filterHandler(photo);
         }
     }
 
     public class Photo
     {
-        public static void Photo(string path)
+        public static Photo Load(string path)
         {
+            Console.WriteLine($"Loading photo from {path}...");
             return new Photo();
         }
     }
 
-    //Dynamic Binding
-    public class DynamicBinding
+    public class PhotoFilters
     {
-        int i = 5;
-        dynamic d = i;
-        long l = d;
+        public void ApplyBrightness(Photo photo)
+        {
+            Console.WriteLine("Applying Brightness...");
+        }
+
+        public void ApplyContrast(Photo photo)
+        {
+            Console.WriteLine("Applying Contrast...");
+        }
     }
 
-    //ExeptionHandling
-    public class ExeptionHandling
+    // Dynamic Binding
+    public class DynamicBinding
     {
-        try
+        public void Example()
         {
-            var api = new YoutubeApi();
-            var videos = api.GetVideos("Tom");
-
+            int i = 5;
+            dynamic d = i;
+            long l = d;
+            Console.WriteLine($"Dynamic value: {l}");
         }
-        catch(Exeption ex)
-        {}
+    }
+
+    // Exception Handling
+    public class ExceptionHandlingExample
+    {
+        public void HandleException()
+        {
+            try
+            {
+                var api = new YouTubeApi();
+                var videos = api.GetVideos("Tom");
+            }
+            catch (YouTubeException ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
     }
 
     public class YouTubeApi
@@ -78,79 +122,63 @@ namespace CompleteCs
         {
             try
             {
-                throw new Exception("Oops some low level YouTube error.");
+                throw new Exception("Low-level YouTube error.");
             }
             catch (Exception ex)
             {
-                throw new YouTubeException("Could not fetch the videos from YouTube.", ex);
+                throw new YouTubeException("Could not fetch videos from YouTube.", ex);
             }
-
-            return new List<Video>();
         }
     }
 
-    public class Video
-    {
-    }
-    
     public class YouTubeException : Exception
     {
         public YouTubeException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
+            : base(message, innerException) { }
     }
 
+    public class Video { }
 
-    //Generics
-    class Program
+    // Generics
+    public class GenericList<T>
     {
-        static void Main(string[] args)
-        {
-            var book = new Book{ Isbn = "1111", Title = "C# Advance"};
+        private List<T> _list = new List<T>();
 
+        public void Add(T value)
+        {
+            _list.Add(value);
+        }
+
+        public T this[int index] => _list[index];
+    }
+
+    public class GenericsExample
+    {
+        public void Demo()
+        {
             var numbers = new GenericList<int>();
             numbers.Add(10);
 
             var books = new GenericList<Book>();
-            books.Add(new Book());
+            books.Add(new Book { Title = "C# Advanced Topics" });
         }
     }
 
-    public class GenericList<T>
+    // LINQ
+    public class LINQExample
     {
-        public void Add(T value)
-        {
-
-        }
-
-        public T this[int index]
-        {
-            get { throw new NotImplementedException(); }
-        }
-    }
-
-
-    //Lambda
-    class Program
-    {
-        static void Main(string[] args)
+        public void QueryBooks()
         {
             var books = new BookRepository().GetBooks();
 
-            var cheapBooks = books.FindAll(b => b.Price < 10);
-
-            foreach (var book in cheapBooks)
-            {
-                Console.WriteLine(book.Title);
-            }
-
+            var expensiveBooks = books.Where(b => b.Price > 10).OrderBy(b => b.Title);
+            foreach (var book in expensiveBooks)
+                Console.WriteLine($"{book.Title} - ${book.Price}");
         }
     }
 
     public class Book
     {
-        public string Isbn { get; set; }
         public string Title { get; set; }
         public float Price { get; set; }
     }
@@ -161,132 +189,23 @@ namespace CompleteCs
         {
             return new List<Book>
             {
-                new Book() {Title = "Title 1", Price = 5},
-                new Book() {Title = "Title 2", Price = 7},
-                new Book() {Title = "Title 3", Price = 17}
+                new Book { Title = "C# Basics", Price = 5 },
+                new Book { Title = "Advanced C#", Price = 12 },
+                new Book { Title = "LINQ in Action", Price = 9.99f }
             };
         }
     }
 
-
-    //LinQ
-    class Program
+    // Miscellaneous: HashSet Example
+    public class HashSetExample
     {
-        static void Main(string[] args)
+        public int FindSmallestPositiveMissingNumber(int[] numbers)
         {
-            
-            Func<int, int, int> add = (a, b) => a + b;
-            Console.WriteLine(add(2, 3));
-        }
-
-        private static float CalculateDiscount(float price)
-        {
-            return 0;
-        }
-
-    
-    
-    public class Book
-    {
-        public string Title { get; set; }
-        public float Price { get; set; }
-    }
-
-    public class BookRepository
-    {
-        public IEnumerable<Book> GetBooks()
-        {
-            return new List<Book>
-            {
-                new Book() {Title = "ADO.Net Step by Step", Price = 5 },
-                new Book() {Title = "ASP.NET MVC", Price = 9.99f },
-                new Book() {Title = "ASP.NET Web API", Price = 12 },
-                new Book() {Title = "C# Advanced Topics", Price = 7 },
-                new Book() {Title = "C# Advanced Topics", Price = 9 }
-            };
-        }
-    }
-
-    public class String
-    {
-        public void Shorten(int numberOfWords)
-        {
-        }
-
-        public int Add(int a, int b)
-        {
-            return a + b;
-        }
-    }
-    public class MessageArgs
-    {
-    }
-
-    //Nullable
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            DateTime? date = null;
-            DateTime date2 = date ?? DateTime.Today;
-
-            DateTime date3 = (date != null) ? date.GetValueOrDefault() : DateTime.Today
-        }
-    }
-
-
-
-
-    //A is an array of integers
-    //Hash Set and foreach problem(min positive number from A array that is not in the array)
-    HashSet<int> existingNumbers = new HashSet<int>();
-
-    // Add all positive numbers from the array to the HashSet
-    foreach(int i in A)
-    {
-        if (i > 0)
-        {
-            existingNumbers.Add(i);
-        }
-    }
-
-    // Check for consecutive positive numbers starting from 1
-    int minResult = 1;
-    while (existingNumbers.Contains(minResult))
-    {
-        minResult++;
-    }
-
-    return minResult;
-
-
-
-    class Solution {
-    public int solution(int[] A) 
-    {
-        // Implement your solution here
-        int minResult = 1;
-        foreach(int i in A)
-        {
-            if(i == minResult)
-            {
+            var existingNumbers = new HashSet<int>(numbers.Where(n => n > 0));
+            int minResult = 1;
+            while (existingNumbers.Contains(minResult))
                 minResult++;
-            }
-        }
-        return minResult;
-    }
-}
-}
-
-for(var i = 0; i < 2; i++)
-{
-    for(var j = 0; j < 10; j++)
-    {
-        System.Console.WriteLine($"i: {i} j: {j} ");
-        if (j == 1)
-        {
-            break;
+            return minResult;
         }
     }
 }
