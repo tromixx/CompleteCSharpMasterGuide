@@ -1,3 +1,23 @@
+/*
+Topics:
+1. Overview of C#
+2. Core C# Features
+3. Generics
+4. Delegates and Events
+5. OOP Principles in C#
+6. Collections and Data Structures
+7. LINQ and Querying Data
+8. Exception Handling
+9. Memory Management and Garbage Collection
+10. Threads and Asynchronous Programming
+11. Design Patterns
+12. Important Differences (e.g., class vs struct, throw vs throw ex)
+13. Miscellaneous Concepts
+14. Dependency Injection (DI)
+15. C# 9+ Features
+16. Code Examples and Practice Questions
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +28,7 @@ namespace CompleteCs
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             // Example of Delegates
             var processor = new PhotoProcessor();
@@ -39,8 +59,21 @@ namespace CompleteCs
             thread.Start();
 
             // Example of Asynchronous Programming
-            var data = GetDataAsync().Result;
+            var data = await GetDataAsync();
             Console.WriteLine(data);
+
+            // Example of Dependency Injection
+            var logger = new ConsoleLogger();
+            var app = new Application(logger);
+            app.Run();
+
+            // Example of OOP Principles
+            var dog = new Dog();
+            dog.Speak();
+
+            // Example of Design Patterns
+            var singleton = Singleton.Instance;
+            Console.WriteLine("Singleton instance created.");
         }
 
         static void RemoveRedEyeFilter(Photo photo)
@@ -87,67 +120,34 @@ namespace CompleteCs
         }
     }
 
-    // Dynamic Binding
-    public class DynamicBinding
+    // OOP Principles in C#
+    public class Animal
     {
-        public void Example()
-        {
-            int i = 5;
-            dynamic d = i;
-            long l = d;
-            Console.WriteLine($"Dynamic value: {l}");
-        }
+        public virtual void Speak() => Console.WriteLine("Animal speaks");
     }
 
-    // Exception Handling
-    public class ExceptionHandlingExample
+    public class Dog : Animal
     {
-        public void HandleException()
-        {
-            try
-            {
-                var api = new YouTubeApi();
-                var videos = api.GetVideos("Tom");
-            }
-            catch (YouTubeException ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-        }
+        public override void Speak() => Console.WriteLine("Bark");
     }
 
-    public class YouTubeApi
+    public abstract class Shape
     {
-        public List<Video> GetVideos(string user)
-        {
-            try
-            {
-                throw new Exception("Low-level YouTube error.");
-            }
-            catch (Exception ex)
-            {
-                throw new YouTubeException("Could not fetch videos from YouTube.", ex);
-            }
-        }
+        public abstract double GetArea();
     }
 
-    public class YouTubeException : Exception
+    public class Circle : Shape
     {
-        public YouTubeException(string message, Exception innerException)
-            : base(message, innerException) { }
+        public double Radius { get; set; }
+        public override double GetArea() => Math.PI * Radius * Radius;
     }
-
-    public class Video { }
 
     // Generics
     public class GenericList<T>
     {
-        private List<T> _list = new List<T>();
+        private readonly List<T> _list = new List<T>();
 
-        public void Add(T value)
-        {
-            _list.Add(value);
-        }
+        public void Add(T value) => _list.Add(value);
 
         public T this[int index] => _list[index];
     }
@@ -164,19 +164,33 @@ namespace CompleteCs
         }
     }
 
-    // LINQ
-    public class LINQExample
+    // Dependency Injection
+    public interface ILogger
     {
-        public void QueryBooks()
-        {
-            var books = new BookRepository().GetBooks();
+        void Log(string message);
+    }
 
-            var expensiveBooks = books.Where(b => b.Price > 10).OrderBy(b => b.Title);
-            foreach (var book in expensiveBooks)
-                Console.WriteLine($"{book.Title} - ${book.Price}");
+    public class ConsoleLogger : ILogger
+    {
+        public void Log(string message) => Console.WriteLine(message);
+    }
+
+    public class Application
+    {
+        private readonly ILogger _logger;
+
+        public Application(ILogger logger)
+        {
+            _logger = logger;
+        }
+
+        public void Run()
+        {
+            _logger.Log("Application is running...");
         }
     }
 
+    // LINQ and Querying Data
     public class Book
     {
         public string Title { get; set; }
@@ -196,16 +210,23 @@ namespace CompleteCs
         }
     }
 
-    // Miscellaneous: HashSet Example
-    public class HashSetExample
+    // Design Patterns
+    public class Singleton
     {
-        public int FindSmallestPositiveMissingNumber(int[] numbers)
+        private static Singleton _instance;
+        private static readonly object Lock = new object();
+
+        private Singleton() { }
+
+        public static Singleton Instance
         {
-            var existingNumbers = new HashSet<int>(numbers.Where(n => n > 0));
-            int minResult = 1;
-            while (existingNumbers.Contains(minResult))
-                minResult++;
-            return minResult;
+            get
+            {
+                lock (Lock)
+                {
+                    return _instance ??= new Singleton();
+                }
+            }
         }
     }
 }
