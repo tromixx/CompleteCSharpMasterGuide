@@ -894,3 +894,100 @@ CREATE INDEX idx_employee_name ON Employees (FirstName, LastName);
 ```
 
 ---
+
+# React Interview Guide
+
+## Overview of React
+React is a JavaScript library for building user interfaces. It is declarative, component-based, and designed to handle complex UIs with reusable components.
+
+### Core Concepts
+- **Components**: The building blocks of a React application.
+- **State**: Local data storage in a component that can change over time.
+- **Props**: Data passed from parent to child components.
+- **Virtual DOM**: A lightweight copy of the real DOM that optimizes rendering.
+- **JSX**: A syntax extension to JavaScript for writing HTML-like code.
+
+## React Basics
+
+### What is React?
+React is a JavaScript library developed by Facebook for creating user interfaces, particularly single-page applications (SPAs).
+
+### Components in React
+- **Functional Components**: Defined using JavaScript functions.
+- **Class Components**: Defined using ES6 classes extending `React.Component`.
+
+### JSX
+JSX allows developers to write HTML-like syntax directly in JavaScript. It compiles to `React.createElement` calls.
+
+### State and Props
+- **State**: Mutable data stored locally in a component.
+- **Props**: Immutable data passed to components as arguments.
+
+## Intermediate Concepts
+
+### Hooks
+- **useState**: Manages local state.
+- **useEffect**: Handles side effects.
+- **useContext**: Accesses the React Context API.
+
+### Context API
+Provides a way to pass data through the component tree without using props at every level.
+
+### Controlled vs. Uncontrolled Components
+- **Controlled**: Values are managed via React state.
+- **Uncontrolled**: Values are managed by the DOM.
+
+### Keys in React
+Unique identifiers for elements in lists to help React track changes efficiently.
+
+## Advanced Concepts
+
+### Server-Side Rendering (SSR)
+SSR renders React components on the server, improving SEO and load times.
+
+### Higher-Order Components (HOCs)
+Functions that take a component and return an enhanced component.
+
+### React Portals
+Render children into a DOM node outside the parent hierarchy.
+
+### Performance Optimization
+- Use `React.memo` to memoize components.
+- Use `useMemo` to memoize values.
+- Use `useCallback` to memoize functions.
+- Split code using `React.Suspense` and `React.lazy`.
+
+## Testing and Debugging
+
+### Error Handling
+Use Error Boundaries to catch errors in the component tree.
+
+### Testing Tools
+- **Jest**: For unit testing.
+- **React Testing Library**: For testing components.
+
+## Behavioral Questions
+
+### Managing Challenges
+Discuss how you approached and solved issues in a React project.
+
+### Large-Scale Applications
+- Modularize code.
+- Use state management libraries like Redux.
+- Optimize rendering with memoization and code-splitting.
+
+## Additional Topics
+
+### Fragments
+Group children without adding extra nodes to the DOM.
+
+### React StrictMode
+Tool for detecting potential problems in development mode.
+
+### React vs. Angular
+Compare their architectures, learning curves, and ecosystems.
+
+### Example Code in `react_interview_guide.js`
+See the companion `.js` file for practical examples and code snippets.
+
+
