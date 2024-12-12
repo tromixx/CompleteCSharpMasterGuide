@@ -62,6 +62,95 @@
 
 ---
 
+### **React Interview Guide (Complete List)**
+
+#### **Overview of React**
+1. Introduction to React
+2. Core Concepts
+
+#### **React Basics**
+3. What is React?
+4. Components in React
+5. JSX
+6. State and Props
+
+#### **Intermediate Concepts**
+7. Hooks
+8. Context API
+9. Controlled vs. Uncontrolled Components
+10. Keys in React
+
+#### **Advanced Concepts**
+11. Server-Side Rendering (SSR)
+12. Higher-Order Components (HOCs)
+13. React Portals
+14. Performance Optimization
+
+#### **Testing and Debugging**
+15. Error Handling
+16. Testing Tools
+17. Testing Advanced Scenarios
+
+#### **React Ecosystem and Libraries**
+18. State Management Libraries
+19. Form Handling Libraries
+20. Component Libraries
+21. Styling in React
+
+#### **TypeScript in React**
+22. Why use TypeScript
+23. Typing Components and Props
+
+#### **Advanced Hooks**
+24. useReducer
+25. useRef
+26. useLayoutEffect vs. useEffect
+27. useImperativeHandle
+
+#### **React Internals**
+28. Virtual DOM
+29. Reconciliation Algorithm
+30. React Fiber Architecture
+
+#### **Design Patterns**
+31. Render Props
+32. Compound Component Pattern
+33. Controlled vs. Uncontrolled Components
+34. Higher-Order Components vs. Hooks
+
+#### **Integration and API Handling**
+35. Data Fetching Techniques
+36. Handling Async Operations
+37. Optimistic Updates
+
+#### **Error Handling and Debugging**
+38. Error Boundaries
+39. Debugging Tools
+
+#### **React Native**
+40. Basics of React Native
+41. Differences between React and React Native
+
+#### **SSR and Next.js**
+42. Server-Side Rendering (SSR) and Static Site Generation (SSG)
+43. Hydration Process
+
+#### **Build and Deployment**
+44. Build Tools and Configurations
+45. Production Optimization
+46. CI/CD Pipelines
+
+#### **Browser Compatibility**
+47. Ensuring Cross-Browser Compatibility
+48. Polyfills
+
+#### **Behavioral and Team-Oriented Topics**
+49. Collaboration in React Projects
+50. Trade-offs of React in Team Projects
+51. Managing Conflicts in Architecture Decisions
+
+---
+
 
 ### **1. Overview of C#**
 **What is C#?**  
