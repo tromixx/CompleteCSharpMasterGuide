@@ -604,13 +604,13 @@ function DragAndDrop() {
   const [items, setItems] = useState(["Item 1", "Item 2", "Item 3"]);
 
   const handleDragEnd = (result) => {
-    if (!result.destination) return;
+    if (!result.destination) return; // If dropped outside the list, do nothing
 
-    const reorderedItems = Array.from(items);
-    const [removed] = reorderedItems.splice(result.source.index, 1);
-    reorderedItems.splice(result.destination.index, 0, removed);
+    const reorderedItems = Array.from(items); // Make a copy of the items array
+    const [removed] = reorderedItems.splice(result.source.index, 1); // Remove the dragged item
+    reorderedItems.splice(result.destination.index, 0, removed); // Insert it at the new position
 
-    setItems(reorderedItems);
+    setItems(reorderedItems); // Update the state
   };
 
   return (
@@ -623,6 +623,30 @@ function DragAndDrop() {
                 {(provided) => (
                   <li
                     ref={provided.innerRef}
-                    {...provided.dr
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    style={{
+                      padding: "10px",
+                      margin: "5px",
+                      background: "lightgray",
+                      borderRadius: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {item}
+                  </li>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </ul>
+        )}
+      </Droppable>
+    </DragDropContext>
+  );
+}
+
+export default DragAndDrop;
+
 
 
