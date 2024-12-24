@@ -74,6 +74,19 @@ namespace CompleteCs
             // Example of Design Patterns
             var singleton = Singleton.Instance;
             Console.WriteLine("Singleton instance created.");
+
+            // 1 : Coin problem
+
+            decimal ammountPaids = 20.00;
+            decimal totalCosts = 19.73;
+
+            List<decimal> change = GetChage( ammountPaids, totalCosts);
+
+            Console.WriteLine("Change returned: ");
+            foreach(coin in change)
+            {
+                Console.WriteLine($"{coin}");
+            }
         }
 
         static void RemoveRedEyeFilter(Photo photo)
@@ -485,3 +498,21 @@ public class SingletonExample
 }
 
 //Problem 1: Penny problem
+// Write a program that returns change in coins when someone pays with a bill
+
+static List<decimal> GetChage(decimal ammountPaids, decimal totalCosts)
+{
+    decimal change = Math.Round(ammountPaids - totalCosts, 2);
+    List<decimal> coins = new List<decimal> {0.25m, 0.10m, 0.05m, 0.01m}
+
+    foreach (var coin in coins)
+    {
+        while (change >= coins)
+        {
+            changeCoins.Add(coin);
+            change -= coin;
+            change = Math.Round(change, 2);
+        }
+    }
+    return changeCoins;
+}
