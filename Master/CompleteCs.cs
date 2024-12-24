@@ -483,3 +483,5 @@ public class SingletonExample
         logger.Log("Singleton pattern in action!");
     }
 }
+
+//Problem 1: Penny problem
