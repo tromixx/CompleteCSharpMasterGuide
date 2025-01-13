@@ -62,6 +62,27 @@
 
 ---
 
+### SQL Performance Optimization Guide
+1. **Look for Slow LINQs**
+2. **Query Splitting**
+3. **Use Projection**
+4. **Remove Lazy Loaded Entities**
+5. **Support Optional Pagination**
+6. **Check for Indexes**
+7. **Optimize Data Types**
+8. **Reduce Database Calls**
+9. **Upgrade Entity Framework Version**
+10. **Upgrade .NET Version**
+11. **Upgrade Server Plans**
+12. **Implement Horizontal Auto-Scaling**
+13. **Interface Cache for Lookup Tables**
+14. **Database Normalization**
+15. **Disable Change Tracking**
+16. **Use Ad Hoc SQL Queries**
+17. **Asynchronous Operations with Message Brokers**
+18. **Move API Closer to Clients**
+
+
 ### **React Interview Guide (Complete List)**
 
 #### **Overview of React**
@@ -1204,5 +1225,192 @@ Discuss balancing flexibility, learning curve, and maintainability in team envir
 
 ### Managing Conflicts in Architecture Decisions
 Facilitate discussions and document pros and cons to arrive at consensus-driven solutions.
+
+
+# SQL Performance Optimization Guide
+
+This guide provides best practices for analyzing and improving SQL query performance. Each recommendation includes examples and explanations to help you implement them effectively.
+
+---
+
+## 1. Look for Slow LINQs
+- Use a SQL profiler to identify LINQ queries that take a long time to execute.
+- Example: Avoid using `.ToList()` within loops as it executes the query multiple times. Instead, materialize the query outside the loop.
+
+```csharp
+// Bad
+foreach (var item in db.Items.ToList()) { ... }
+
+// Good
+var items = db.Items.ToList();
+foreach (var item in items) { ... }
+```
+
+---
+
+## 2. Query Splitting
+- Split large, complex queries into smaller, more efficient queries to reduce execution time and memory usage.
+- Example: Break down eager loading with `.Include()` into separate queries when appropriate.
+
+```csharp
+// Instead of this
+var orders = db.Orders.Include(o => o.Customer).ToList();
+
+// Use this
+var orders = db.Orders.ToList();
+var customers = db.Customers.Where(c => orderIds.Contains(c.OrderId)).ToList();
+```
+
+---
+
+## 3. Use Projection
+- Select only the columns you need instead of fetching entire entities.
+- Example:
+
+```csharp
+// Avoid fetching the entire entity
+var customers = db.Customers.ToList();
+
+// Use projection
+var customerNames = db.Customers.Select(c => new { c.Name, c.Email }).ToList();
+```
+
+---
+
+## 4. Remove Lazy Loaded Entities
+- Disable lazy loading for entities that are not required in the final result.
+- Example:
+
+```csharp
+// Disable lazy loading for performance
+context.Configuration.LazyLoadingEnabled = false;
+```
+
+---
+
+## 5. Support Optional Pagination
+- Paginate large result sets to reduce the data fetched from the database.
+- Example:
+
+```csharp
+var paginatedResults = db.Items.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+```
+
+---
+
+## 6. Check for Indexes
+- Ensure indexes are present on frequently queried columns.
+- Example:
+
+```sql
+CREATE INDEX IX_Customers_Name ON Customers (Name);
+```
+
+---
+
+## 7. Optimize Data Types
+- Use appropriate data types for columns (e.g., avoid `TEXT` for searchable fields).
+- Example:
+
+```sql
+-- Instead of
+CREATE TABLE Logs (LogText TEXT);
+
+-- Use this
+CREATE TABLE Logs (LogText VARCHAR(255));
+```
+
+---
+
+## 8. Reduce Database Calls
+- Batch operations or use transactions for multiple queries.
+- Identify and resolve N+1 query issues.
+- Example:
+
+```csharp
+// N+1 Problem
+var orders = db.Orders.ToList();
+foreach (var order in orders) {
+    var customer = db.Customers.Find(order.CustomerId);
+}
+
+// Solution
+var ordersWithCustomers = db.Orders.Include(o => o.Customer).ToList();
+```
+
+---
+
+## 9. Upgrade Entity Framework Version
+- Use the latest Entity Framework version for performance improvements and bug fixes.
+
+---
+
+## 10. Upgrade .NET Version
+- Newer .NET versions provide better runtime performance and enhanced database interaction libraries.
+
+---
+
+## 11. Upgrade Server Plans
+- Scale up the database server to handle larger workloads if resource limits are reached.
+
+---
+
+## 12. Implement Horizontal Auto-Scaling
+- Use auto-scaling for peak load times to distribute database calls across multiple servers.
+
+---
+
+## 13. Interface Cache for Lookup Tables
+- Cache static or infrequently updated data to reduce database hits.
+- Example:
+
+```csharp
+var states = memoryCache.GetOrCreate("states", entry => db.States.ToList());
+```
+
+---
+
+## 14. Database Normalization
+- Normalize tables to eliminate redundant data while maintaining query efficiency.
+
+---
+
+## 15. Disable Change Tracking
+- Disable Entity Framework’s change tracking for read-only queries to improve performance.
+- Example:
+
+```csharp
+var results = db.Items.AsNoTracking().ToList();
+```
+
+---
+
+## 16. Use Ad Hoc SQL Queries
+- Write raw SQL queries when performance gains justify their use.
+- Example:
+
+```csharp
+var results = db.Database.SqlQuery<MyEntity>("SELECT * FROM Items WHERE Name = @name", new SqlParameter("name", "example")).ToList();
+```
+
+---
+
+## 17. Asynchronous Operations with Message Brokers
+- Use asynchronous processing and message brokers for long-running operations.
+- Example:
+
+1. API responds with `202 Accepted` and a `Location` header.
+2. Use SignalR to push results to the client when processing is complete.
+
+---
+
+## 18. Move API Closer to Clients
+- Host the API on servers closer to clients to reduce latency.
+- Example:
+  - Public APIs: Use a CDN or geographically distributed servers.
+  - On-premise clients: Host the API within their network.
+
+---
+
 
 
