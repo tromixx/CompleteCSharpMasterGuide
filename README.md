@@ -1424,6 +1424,8 @@ Here’s a detailed explanation of **hash tables**, **graphs**, and **dynamic pr
 
 ---
 
+## Extra Topics
+
 ### **1. Hash Tables**
 A **hash table** is a data structure that stores key-value pairs. It uses a **hash function** to compute an index (or hash code) into an array, where the desired value can be found or inserted.
 
