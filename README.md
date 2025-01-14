@@ -82,6 +82,13 @@
 17. **Asynchronous Operations with Message Brokers**
 18. **Move API Closer to Clients**
 
+---
+
+### Extra Topics
+1.
+2.
+3.
+
 
 ### **React Interview Guide (Complete List)**
 
@@ -1412,5 +1419,131 @@ var results = db.Database.SqlQuery<MyEntity>("SELECT * FROM Items WHERE Name = @
 
 ---
 
+
+Here’s a detailed explanation of **hash tables**, **graphs**, and **dynamic programming** with examples for each topic:
+
+---
+
+### **1. Hash Tables**
+A **hash table** is a data structure that stores key-value pairs. It uses a **hash function** to compute an index (or hash code) into an array, where the desired value can be found or inserted.
+
+#### **Key Concepts**
+1. **Hash Function**: Converts a key into an array index.
+   - Example: A hash function for strings might sum the ASCII values of characters and take modulo `N` (array size).
+
+2. **Collision Handling**: Different keys might hash to the same index.
+   - **Chaining**: Store multiple values in a list at the same index.
+   - **Open Addressing**: Probe for the next available slot.
+
+#### **Example Use Case**
+- **Problem**: Find if a given number appears twice in an array.
+- **Solution**: Use a hash table to store numbers as keys while iterating through the array.
+
+#### **Example in Python**
+```python
+nums = [1, 2, 3, 4, 1]
+hash_table = {}
+
+for num in nums:
+    if num in hash_table:
+        print(f"Duplicate found: {num}")
+        break
+    hash_table[num] = True
+```
+
+---
+
+### **2. Graphs**
+A **graph** is a collection of nodes (**vertices**) and edges that connect them. Graphs are used to model relationships and connections.
+
+#### **Types of Graphs**
+1. **Directed Graph**: Edges have direction (e.g., one-way streets).
+2. **Undirected Graph**: Edges have no direction (e.g., two-way roads).
+3. **Weighted Graph**: Edges have weights or costs (e.g., distances, costs).
+
+#### **Representations**
+1. **Adjacency Matrix**:
+   - A 2D array where `matrix[i][j]` is 1 if there's an edge from vertex `i` to vertex `j`.
+2. **Adjacency List**:
+   - A list where each vertex stores a list of its neighbors.
+
+#### **Example Problem**
+- **Problem**: Find the shortest path in a graph.
+- **Solution**: Use Dijkstra’s Algorithm.
+
+#### **Example in Python**
+Adjacency list representation of a graph:
+```python
+graph = {
+    "A": ["B", "C"],
+    "B": ["A", "D", "E"],
+    "C": ["A", "F"],
+    "D": ["B"],
+    "E": ["B", "F"],
+    "F": ["C", "E"]
+}
+
+# Print all neighbors of vertex "B"
+print(graph["B"])
+```
+
+---
+
+### **3. Dynamic Programming (DP)**
+Dynamic programming is an optimization technique used to solve problems by breaking them into overlapping subproblems. It avoids redundant calculations by storing results of subproblems.
+
+#### **Key Concepts**
+1. **Overlapping Subproblems**: Solve the same subproblems multiple times.
+2. **Optimal Substructure**: The solution to the problem can be built using solutions to subproblems.
+
+#### **Common Techniques**
+1. **Top-Down (Memoization)**:
+   - Solve recursively and store results in a table.
+2. **Bottom-Up (Tabulation)**:
+   - Solve iteratively and build a table.
+
+#### **Example Problem**
+- **Problem**: Fibonacci sequence: `F(n) = F(n-1) + F(n-2)`
+- **Solution**: Use DP to avoid recalculating the same Fibonacci numbers.
+
+#### **Example in Python**
+**Top-Down Approach:**
+```python
+def fib(n, memo={}):
+    if n in memo:
+        return memo[n]
+    if n <= 1:
+        return n
+    memo[n] = fib(n-1, memo) + fib(n-2, memo)
+    return memo[n]
+
+print(fib(10))  # Output: 55
+```
+
+**Bottom-Up Approach:**
+```python
+def fib(n):
+    if n <= 1:
+        return n
+    dp = [0] * (n + 1)
+    dp[1] = 1
+    for i in range(2, n + 1):
+        dp[i] = dp[i-1] + dp[i-2]
+    return dp[n]
+
+print(fib(10))  # Output: 55
+```
+
+---
+
+### **Comparison Table**
+
+| Concept           | Key Idea                                | Example Problem                     | Common Representation          |
+|--------------------|-----------------------------------------|-------------------------------------|--------------------------------|
+| **Hash Tables**    | Key-value storage using a hash function | Detect duplicates in an array       | Array or dictionary            |
+| **Graphs**         | Model relationships with vertices/edges | Find shortest path                  | Adjacency list/matrix          |
+| **Dynamic Programming** | Solve overlapping subproblems         | Longest common subsequence, Fibonacci | Arrays (Tabulation or Memoization) |
+
+---
 
 
