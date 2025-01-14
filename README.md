@@ -85,9 +85,9 @@
 ---
 
 ### Extra Topics
-1.
-2.
-3.
+1. Hash Tables
+2. Graphs
+3. Dynamic Programming (DP)
 
 
 ### **React Interview Guide (Complete List)**
